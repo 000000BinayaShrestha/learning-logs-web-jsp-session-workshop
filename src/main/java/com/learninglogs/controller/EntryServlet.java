@@ -6,8 +6,6 @@ import com.learninglogs.dao.TopicDao;
 import com.learninglogs.dao.TopicDaoImpl;
 import com.learninglogs.entity.Entry;
 import com.learninglogs.entity.Topic;
-import com.learninglogs.entity.User;
-import com.learninglogs.utils.SessionUtil;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -94,15 +92,13 @@ public class EntryServlet extends HttpServlet {
         //   }
         //
         // NOTE: The same check goes at the top of doPost as well.
+        // You will also need to add these imports:
+        //   import com.learninglogs.entity.User;
+        //   import com.learninglogs.utils.SessionUtil;
         // ============================================================
-        int topicId = Integer.parseInt(request.getParameter("topicid"));
-        User user = (User) SessionUtil.getAttribute(request, "user");
-        if (!topicDao.checkUserForTopic(user.getId(), topicId)) {
-            response.sendRedirect(request.getContextPath() + "/topic");
-            return;
-        }
 
         String action = request.getParameter("action");
+        int topicId = Integer.parseInt(request.getParameter("topicid"));
 
         if (action == null) {
             ArrayList<Entry> entries = entryDao.fetchEntriesByTopicId(topicId);
@@ -152,14 +148,9 @@ public class EntryServlet extends HttpServlet {
             throws ServletException, IOException {
 
         // Ownership check (same as doGet — see TODO 4)
-        int topicId = Integer.parseInt(request.getParameter("topicid"));
-        User user = (User) SessionUtil.getAttribute(request, "user");
-        if (!topicDao.checkUserForTopic(user.getId(), topicId)) {
-            response.sendRedirect(request.getContextPath() + "/topic");
-            return;
-        }
 
         String action = request.getParameter("action");
+        int topicId = Integer.parseInt(request.getParameter("topicid"));
 
         if ("add".equals(action)) {
             String title = request.getParameter("title");

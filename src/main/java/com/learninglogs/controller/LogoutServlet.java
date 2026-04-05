@@ -1,6 +1,5 @@
 package com.learninglogs.controller;
 
-import com.learninglogs.utils.CookieUtil;
 import com.learninglogs.utils.SessionUtil;
 
 import jakarta.servlet.ServletException;
@@ -59,12 +58,14 @@ public class LogoutServlet extends HttpServlet {
         //     -> CookieUtil.deleteCookie (removes username cookie)
         //     -> redirect to /login (both session and cookies are gone)
         //
+        // You will also need to add this import:
+        //   import com.learninglogs.utils.CookieUtil;
+        //
         // The complete code:
         //
         //   CookieUtil.deleteCookie(response, "username");
         //
         // ============================================================
-        CookieUtil.deleteCookie(response, "username");
 
         response.sendRedirect(request.getContextPath() + "/login");
     }

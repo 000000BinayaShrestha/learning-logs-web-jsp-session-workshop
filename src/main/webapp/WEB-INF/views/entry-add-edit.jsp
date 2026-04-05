@@ -54,9 +54,8 @@
                </div>
              ============================================================ --%>
         <div class="usersession">
-          <h3><c:out value="${sessionScope.user.username}" /></h3>
-          <a href="${pageContext.request.contextPath}/logout" class="logout"
-             onclick="return confirm('Are you sure you want to logout?');">Logout</a>
+          <h3>Username</h3>
+          <a href="#" class="logout">Logout</a>
         </div>
       </header>
 

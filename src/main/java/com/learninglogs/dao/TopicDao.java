@@ -55,5 +55,4 @@ public interface TopicDao {
     //   boolean checkUserForTopic(int userId, int topicId);
     //
     // ============================================================
-    boolean checkUserForTopic(int userId, int topicId);
 }

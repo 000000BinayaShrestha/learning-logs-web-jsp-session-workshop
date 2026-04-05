@@ -3,7 +3,6 @@ package com.learninglogs.controller;
 import com.learninglogs.dao.UserDao;
 import com.learninglogs.dao.UserDaoImpl;
 import com.learninglogs.entity.User;
-import com.learninglogs.utils.CookieUtil;
 import com.learninglogs.utils.PasswordUtil;
 import com.learninglogs.utils.SessionUtil;
 
@@ -99,12 +98,14 @@ public class LoginServlet extends HttpServlet {
         // In DevTools: Application -> Cookies -> localhost:9090
         // You'll see both JSESSIONID and your "username" cookie.
         //
+        // You will also need to add this import:
+        //   import com.learninglogs.utils.CookieUtil;
+        //
         // The complete code:
         //
         //   CookieUtil.addCookie(response, "username", user.getUsername(), 24 * 60 * 60);
         //
         // ============================================================
-        CookieUtil.addCookie(response, "username", user.getUsername(), 24 * 60 * 60);
 
         response.sendRedirect(request.getContextPath() + "/topic");
     }
