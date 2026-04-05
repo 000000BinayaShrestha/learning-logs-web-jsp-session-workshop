@@ -1,0 +1,146 @@
+/*
+ * Main Layout Stylesheet — Learning Logs
+ *
+ * Controls the shared layout: header, navbar, content area, footer.
+ * Uses CSS Flexbox for a vertical page layout with sticky header.
+ *
+ *   ┌──────────────────────────────────────┐
+ *   │  .header   (flex: row, space-between)│  ← sticky top
+ *   ├──────────────────────────────────────┤
+ *   │  .navbar   (dark background)         │
+ *   ├──────────────────────────────────────┤
+ *   │                                      │
+ *   │  .content  (flex: 1 = fills space)   │  ← grows to fill
+ *   │                                      │
+ *   ├──────────────────────────────────────┤
+ *   │  .footer   (dark background)         │  ← pushed to bottom
+ *   └──────────────────────────────────────┘
+ *
+ * Complete from Week 3.
+ * Week 5 adds: --color-primary and --color-bg variables (used by auth.css).
+ */
+
+:root {
+    --color-bg-header: #f4f4f4;
+    --color-border-light: #ddd;
+    --color-border-dark: #000;
+    --color-navbar-bg: #222;
+    --color-footer-bg: #111;
+    --color-text-dark: #333;
+    --color-text-light: #fff;
+    --color-button-border: #333;
+    --color-button-hover-bg: #333;
+    --color-button-delete: rgba(255, 0, 0);
+    --color-primary: #222;              /* NEW for Week 5 — used by auth.css */
+    --color-bg: #f4f4f4;                /* NEW for Week 5 — used by auth.css */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px 40px;
+    background-color: var(--color-bg-header);
+    border-bottom: 1px solid var(--color-border-light);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo h3 {
+    display: inline-block;
+    font-weight: 100;
+}
+
+.usersession {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.usersession h3 {
+    font-weight: 100;
+    border-right: 1px solid var(--color-border-dark);
+    padding-right: 15px;
+}
+
+.navbar {
+    background-color: var(--color-navbar-bg);
+}
+
+.navbar ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 40px;
+    list-style: none;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: var(--color-text-light);
+    font-weight: 500;
+}
+
+.navbar a:hover {
+    opacity: 0.7;
+}
+
+.navbar p {
+    color: var(--color-text-light);
+}
+
+.content {
+    flex: 1;
+    padding: 5px;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid var(--color-border-dark);
+    margin: 5px;
+}
+
+.footer {
+    background-color: var(--color-footer-bg);
+    color: var(--color-text-light);
+    text-align: center;
+    padding: 5px;
+}
+
+.logout {
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--color-button-border);
+    color: var(--color-text-dark);
+}
+
+.logout:hover {
+    background-color: var(--color-button-hover-bg);
+    color: var(--color-text-light);
+}
+
+@media (max-width: 700px) {
+    .logo h3 {
+        display: none;
+    }
+}

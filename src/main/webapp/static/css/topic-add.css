@@ -1,0 +1,84 @@
+/*
+ * Add/Edit Topic Stylesheet — Learning Logs
+ *
+ * Styles the add/edit topic form page.
+ * main.css is linked in the HTML <head> for base layout.
+ *
+ *   ┌──────────────────────────────────────┐
+ *   │  .header   (from main.css)          │
+ *   ├──────────────────────────────────────┤
+ *   │  .navbar   (from main.css)          │
+ *   ├──────────────────────────────────────┤
+ *   │  .topicContainer                    │
+ *   │    .topicItem [Label] [Input____]   │
+ *   │              [Save]                 │
+ *   ├──────────────────────────────────────┤
+ *   │  .footer   (from main.css)          │
+ *   └──────────────────────────────────────┘
+ *
+ * Complete from Week 3. No changes needed.
+ */
+
+.content {
+    flex: 1;
+    padding: 10px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    box-sizing: border-box;
+    border: 2px solid var(--color-border-dark);
+    margin: 5px;
+}
+
+.topicContainer {
+    border: 2px solid var(--color-border-dark);
+    margin: 15px auto;
+    padding: 12px 45px;
+    display: flex;
+    flex-direction: column;
+    min-width: 40%;
+    min-height: 50%;
+}
+
+.topicItem {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0;
+    padding: 5px;
+    align-items: center;
+}
+
+.topicItem input {
+    font-size: large;
+    padding: 5px;
+    flex: 1;
+    border: 2px solid var(--color-border-dark);
+}
+
+.submit {
+    text-align: center;
+}
+
+.submit button[type="submit"] {
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 16px;
+    border: 1px solid var(--color-button-border);
+    color: var(--color-text-dark);
+}
+
+.submit button[type="submit"]:hover {
+    background-color: var(--color-button-hover-bg);
+    color: var(--color-text-light);
+}
+
+@media (max-width: 700px) {
+    .topicItem {
+        flex-wrap: wrap;
+    }
+    .topicItem label {
+        display: none;
+    }
+}

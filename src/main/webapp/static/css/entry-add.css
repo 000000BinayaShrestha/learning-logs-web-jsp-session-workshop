@@ -1,0 +1,103 @@
+/*
+ * Add/Edit Entry Stylesheet — Learning Logs
+ *
+ * Styles the add/edit entry form page.
+ * main.css is linked in the HTML <head> for base layout.
+ *
+ *   ┌──────────────────────────────────────┐
+ *   │  .header   (from main.css)          │
+ *   ├──────────────────────────────────────┤
+ *   │  .navbar   (from main.css)          │
+ *   ├──────────────────────────────────────┤
+ *   │  .topic-title                       │
+ *   │  .form-card                         │
+ *   │    .form-row [Label] [Input____]    │
+ *   │    .form-row [Label] [Textarea_]    │
+ *   │              [Save]                 │
+ *   ├──────────────────────────────────────┤
+ *   │  .footer   (from main.css)          │
+ *   └──────────────────────────────────────┘
+ *
+ * Complete from Week 3 Workshop. No changes needed.
+ */
+
+/* Content Override — column layout */
+.content {
+    flex: 1;
+    padding: 10px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    box-sizing: border-box;
+}
+
+/* Topic Title */
+.topic-title {
+    margin-bottom: 5px;
+    font-size: 20px;
+    font-weight: 200;
+}
+
+/* Form Card */
+.form-card {
+    border: 2px solid var(--color-border-dark);
+    padding: 10px;
+    max-width: 100%;
+}
+
+/* Form Rows */
+.form-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.form-row label {
+    width: 120px;
+    font-weight: 600;
+    text-align: right;
+}
+
+.form-row input,
+.form-row textarea {
+    padding: 10px 12px;
+    border: 2px solid var(--color-border-dark);
+    font-size: 14px;
+    min-width: 70%;
+}
+
+/* Form Actions */
+.form-actions {
+    text-align: center;
+    margin-top: 2px;
+}
+
+.form-actions button {
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 16px;
+    border: 1px solid var(--color-button-border);
+    color: var(--color-text-dark);
+}
+
+.form-actions button:hover {
+    background-color: var(--color-border-dark);
+    color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .form-row {
+        flex-direction: column;
+        align-items: stretch;
+        max-width: 80%;
+    }
+
+    .form-row label {
+        width: 100%;
+        text-align: left;
+    }
+}

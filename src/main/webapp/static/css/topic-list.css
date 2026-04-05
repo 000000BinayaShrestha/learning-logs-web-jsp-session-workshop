@@ -1,0 +1,133 @@
+/*
+ * Topic List Stylesheet — Learning Logs
+ *
+ * Styles the topic list page: search bar and topic items.
+ * main.css is linked in the HTML <head> for base layout.
+ *
+ *   ┌──────────────────────────────────────┐
+ *   │  .header   (from main.css)          │
+ *   ├──────────────────────────────────────┤
+ *   │  .navbar   (from main.css)          │
+ *   ├──────────────────────────────────────┤
+ *   │  .search   [label] [input] [button] │
+ *   │  .topicContainer                    │
+ *   │    .topicItem                       │
+ *   │      [topic link] [Edit] [Delete]   │
+ *   ├──────────────────────────────────────┤
+ *   │  .footer   (from main.css)          │
+ *   └──────────────────────────────────────┘
+ *
+ * Complete from Week 3.
+ * Week 6 adds: .date style for formatted topic dates.
+ */
+
+.content {
+    flex: 1;
+    padding: 10px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    box-sizing: border-box;
+    border: 2px solid var(--color-border-dark);
+    margin: 5px;
+}
+
+.search {
+    text-align: center;
+}
+
+.search input {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--color-border-light);
+    width: 200px;
+}
+
+.search button {
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--color-button-border);
+    background: transparent;
+    cursor: pointer;
+}
+
+.search button:hover {
+    background-color: var(--color-button-hover-bg);
+    color: var(--color-text-light);
+}
+
+.topicContainer {
+    border: 2px solid var(--color-border-dark);
+    margin: 15px auto;
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: column;
+    min-width: 40%;
+    min-height: 50%;
+}
+
+.topicItem {
+    display: flex;
+    gap: 10px;
+    margin: 2px 0;
+    padding: 5px;
+    border: 2px solid var(--color-border-dark);
+}
+
+.topicItem .topic {
+    text-decoration: none;
+    color: var(--color-text-dark);
+    font-weight: 500;
+    padding: 5px 0px 0px 0px;
+    flex: 1;
+    overflow: hidden;
+}
+
+.topicItem .topic:hover {
+    text-decoration: underline;
+    color: var(--color-text-dark);
+}
+
+.topicItem .date {
+    color: #888;
+    font-size: 13px;
+    padding: 6px 0;
+    white-space: nowrap;
+}
+
+.topicItem .edit {
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--color-button-border);
+    color: var(--color-text-dark);
+}
+
+.topicItem .edit:hover {
+    background-color: var(--color-button-hover-bg);
+    color: var(--color-text-light);
+}
+
+.topicItem .submit {
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 16px;
+    border: 1px solid var(--color-button-border);
+    color: var(--color-text-dark);
+}
+
+.topicItem .submit:hover {
+    background-color: var(--color-button-delete);
+    color: var(--color-text-light);
+}
+
+@media (max-width: 700px) {
+    .topicItem {
+        flex-wrap: wrap;
+    }
+    .topicItem .topic {
+        flex: 100%;
+    }
+}

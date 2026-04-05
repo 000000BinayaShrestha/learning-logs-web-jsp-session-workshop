@@ -1,0 +1,146 @@
+/*
+ * Entry List Stylesheet — Learning Logs
+ *
+ * Styles the entry list page: search bar, topic title, and entry cards.
+ * main.css is linked in the HTML <head> for base layout.
+ *
+ *   ┌──────────────────────────────────────┐
+ *   │  .header   (from main.css)          │
+ *   ├──────────────────────────────────────┤
+ *   │  .navbar   (from main.css)          │
+ *   ├──────────────────────────────────────┤
+ *   │  .search-bar  [label] [input] [btn] │
+ *   │  .topic-title                       │
+ *   │  .entry-grid                        │
+ *   │    .entry-card  .entry-card  ...    │
+ *   ├──────────────────────────────────────┤
+ *   │  .footer   (from main.css)          │
+ *   └──────────────────────────────────────┘
+ *
+ * Complete from Week 3 Workshop. No changes needed.
+ */
+
+/* Content Override — column layout instead of centered */
+.content {
+    flex: 1;
+    padding: 5px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    box-sizing: border-box;
+}
+
+/* Search Bar */
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+}
+
+.search-bar input {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--color-border-light);
+    width: 200px;
+}
+
+.search-bar button {
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--color-button-border);
+    cursor: pointer;
+}
+
+.search-bar button:hover {
+    background-color: var(--color-button-hover-bg);
+    color: var(--color-text-light);
+}
+
+/* Topic Title */
+.topic-title {
+    margin-bottom: 5px;
+    font-size: 20px;
+    font-weight: 200;
+}
+
+/* Entry Grid — CSS Grid with auto-fit */
+.entry-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 25px;
+}
+
+/* Entry Card */
+.entry-card {
+    border: 2px solid var(--color-border-dark);
+    padding: 20px;
+    background-color: #fff;
+}
+
+/* Entry Header */
+.entry-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.entry-header h3 {
+    margin-bottom: 5px;
+}
+
+/* Date */
+.date {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Photo Placeholder */
+.photo {
+    width: 80px;
+    height: 80px;
+    border: 2px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* Entry Text */
+.entry-text {
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+/* Link */
+.link a {
+    color: #000;
+    text-decoration: underline;
+}
+
+/* Entry Actions */
+.entry-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.entry-actions button {
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--color-button-border);
+    color: var(--color-text-dark);
+}
+
+.entry-actions button:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+.entry-actions .danger:hover {
+    background-color: #c0392b;
+    border-color: var(--color-button-border);
+}
