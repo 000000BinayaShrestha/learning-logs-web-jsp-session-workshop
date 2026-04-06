@@ -84,7 +84,13 @@ public class EntryServlet extends HttpServlet {
         // The complete code (add at the very top of doGet, before
         // the existing String action = ... line):
         //
-        //   int topicId = Integer.parseInt(request.getParameter("topicid"));
+        //   int topicId;
+        //   try {
+        //       topicId = Integer.parseInt(request.getParameter("topicid"));
+        //   } catch (NumberFormatException e) {
+        //       response.sendRedirect(request.getContextPath() + "/topic");
+        //       return;
+        //   }
         //   User user = (User) SessionUtil.getAttribute(request, "user");
         //   if (!topicDao.checkUserForTopic(user.getId(), topicId)) {
         //       response.sendRedirect(request.getContextPath() + "/topic");
@@ -98,7 +104,13 @@ public class EntryServlet extends HttpServlet {
         // ============================================================
 
         String action = request.getParameter("action");
-        int topicId = Integer.parseInt(request.getParameter("topicid"));
+        int topicId;
+        try {
+            topicId = Integer.parseInt(request.getParameter("topicid"));
+        } catch (NumberFormatException e) {
+            response.sendRedirect(request.getContextPath() + "/topic");
+            return;
+        }
 
         if (action == null) {
             ArrayList<Entry> entries = entryDao.fetchEntriesByTopicId(topicId);
@@ -116,7 +128,13 @@ public class EntryServlet extends HttpServlet {
                    .forward(request, response);
         }
         else if ("edit".equals(action)) {
-            int entryId = Integer.parseInt(request.getParameter("entryid"));
+            int entryId;
+            try {
+                entryId = Integer.parseInt(request.getParameter("entryid"));
+            } catch (NumberFormatException e) {
+                response.sendRedirect(request.getContextPath() + "/entry?topicid=" + topicId);
+                return;
+            }
             Entry entry = entryDao.findEntryById(entryId);
             Topic topic = topicDao.findTopicById(topicId);
             request.setAttribute("entry", entry);
@@ -150,7 +168,13 @@ public class EntryServlet extends HttpServlet {
         // Ownership check (same as doGet — see TODO 3)
 
         String action = request.getParameter("action");
-        int topicId = Integer.parseInt(request.getParameter("topicid"));
+        int topicId;
+        try {
+            topicId = Integer.parseInt(request.getParameter("topicid"));
+        } catch (NumberFormatException e) {
+            response.sendRedirect(request.getContextPath() + "/topic");
+            return;
+        }
 
         if ("add".equals(action)) {
             String title = request.getParameter("title");
@@ -176,7 +200,13 @@ public class EntryServlet extends HttpServlet {
         }
 
         else if ("edit".equals(action)) {
-            int entryId = Integer.parseInt(request.getParameter("entryid"));
+            int entryId;
+            try {
+                entryId = Integer.parseInt(request.getParameter("entryid"));
+            } catch (NumberFormatException e) {
+                response.sendRedirect(request.getContextPath() + "/entry?topicid=" + topicId);
+                return;
+            }
             String title = request.getParameter("title");
             String text = request.getParameter("text");
             String link = request.getParameter("link");
@@ -203,7 +233,13 @@ public class EntryServlet extends HttpServlet {
         }
 
         else if ("delete".equals(action)) {
-            int entryId = Integer.parseInt(request.getParameter("entryid"));
+            int entryId;
+            try {
+                entryId = Integer.parseInt(request.getParameter("entryid"));
+            } catch (NumberFormatException e) {
+                response.sendRedirect(request.getContextPath() + "/entry?topicid=" + topicId);
+                return;
+            }
             entryDao.deleteEntry(entryId);
             response.sendRedirect(request.getContextPath() + "/entry?topicid=" + topicId);
         }

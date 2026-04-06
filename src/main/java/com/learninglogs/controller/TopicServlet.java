@@ -75,7 +75,13 @@ public class TopicServlet extends HttpServlet {
                    .forward(request, response);
         }
         else if ("edit".equals(action)) {
-            int topicId = Integer.parseInt(request.getParameter("topicid"));
+            int topicId;
+            try {
+                topicId = Integer.parseInt(request.getParameter("topicid"));
+            } catch (NumberFormatException e) {
+                response.sendRedirect(request.getContextPath() + "/topic");
+                return;
+            }
             // Ownership check — prevent editing another user's topic via URL manipulation
             if (!topicDao.checkUserForTopic(user.getId(), topicId)) {
                 response.sendRedirect(request.getContextPath() + "/topic");
@@ -133,7 +139,13 @@ public class TopicServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/topic");
         }
         else if ("edit".equals(action)) {
-            int topicId = Integer.parseInt(request.getParameter("topicid"));
+            int topicId;
+            try {
+                topicId = Integer.parseInt(request.getParameter("topicid"));
+            } catch (NumberFormatException e) {
+                response.sendRedirect(request.getContextPath() + "/topic");
+                return;
+            }
             User user = (User) SessionUtil.getAttribute(request, "user");
             // Ownership check — prevent editing another user's topic via URL manipulation
             if (!topicDao.checkUserForTopic(user.getId(), topicId)) {
@@ -157,7 +169,13 @@ public class TopicServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/topic");
         }
         else if ("delete".equals(action)) {
-            int topicId = Integer.parseInt(request.getParameter("topicid"));
+            int topicId;
+            try {
+                topicId = Integer.parseInt(request.getParameter("topicid"));
+            } catch (NumberFormatException e) {
+                response.sendRedirect(request.getContextPath() + "/topic");
+                return;
+            }
             User user = (User) SessionUtil.getAttribute(request, "user");
             // Ownership check — prevent deleting another user's topic via URL manipulation
             if (!topicDao.checkUserForTopic(user.getId(), topicId)) {

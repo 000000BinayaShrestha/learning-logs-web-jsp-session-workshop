@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -105,9 +106,19 @@
 
               <p class="entry-text"><c:out value="${entry.text}" /></p>
 
-              <p class="link">
-                Link: <a href="${entry.link}"><c:out value="${entry.link}" /></a>
-              </p>
+              <c:if test="${not empty entry.link}">
+                <p class="link">
+                  Link:
+                  <c:choose>
+                    <c:when test="${fn:startsWith(entry.link, 'http://') || fn:startsWith(entry.link, 'https://')}">
+                      <a href="${fn:escapeXml(entry.link)}" target="_blank"><c:out value="${entry.link}" /></a>
+                    </c:when>
+                    <c:otherwise>
+                      <c:out value="${entry.link}" />
+                    </c:otherwise>
+                  </c:choose>
+                </p>
+              </c:if>
 
               <div class="entry-actions">
                 <a href="${pageContext.request.contextPath}/entry?action=edit&entryid=${entry.id}&topicid=${topic.id}">
