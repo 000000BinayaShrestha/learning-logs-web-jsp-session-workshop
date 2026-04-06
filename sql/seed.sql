@@ -46,15 +46,24 @@ INSERT INTO topics (name, user_id) VALUES
 ('Cloud Computing', 2);
 
 -- ========== Entries ==========
--- testuser's entries (topics 1-5)
+-- testuser's entries (topics 1-5) — all fields populated
 INSERT INTO entries (topic_id, title, text, link, image) VALUES
 (1, 'Variables and Data Types', 'Python uses dynamic typing. Variables do not need explicit type declarations.', 'https://docs.python.org/3/tutorial/introduction.html', 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/800px-Python-logo-notext.svg.png'),
-(1, 'Control Flow', 'if/elif/else statements and for/while loops are the main control flow tools.', NULL, NULL),
+(1, 'Control Flow', 'if/elif/else statements and for/while loops are the main control flow tools in Python.', 'https://docs.python.org/3/tutorial/controlflow.html', 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Python_logo_and_wordmark.svg/800px-Python_logo_and_wordmark.svg.png'),
 (2, 'HTML Basics', 'HTML provides the structure of a web page using elements and tags.', 'https://developer.mozilla.org/en-US/docs/Learn/HTML', 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/800px-HTML5_logo_and_wordmark.svg.png'),
 (2, 'CSS Flexbox', 'Flexbox is a one-dimensional layout method for arranging items in rows or columns.', 'https://css-tricks.com/snippets/css/a-guide-to-flexbox/', 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/CSS3_logo_and_wordmark.svg/800px-CSS3_logo_and_wordmark.svg.png'),
-(3, 'Introduction to Pandas', 'Pandas provides DataFrames for structured data analysis in Python.', 'https://pandas.pydata.org/docs/', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Pandas_logo.svg/800px-Pandas_logo.svg.png');
+(3, 'Introduction to Pandas', 'Pandas provides DataFrames for structured data analysis in Python.', 'https://pandas.pydata.org/docs/', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Pandas_logo.svg/800px-Pandas_logo.svg.png'),
+(3, 'Data Visualization with Matplotlib', 'Matplotlib is a plotting library for creating static, animated, and interactive visualizations.', 'https://matplotlib.org/stable/tutorials/index.html', 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Matplotlib_icon.svg/800px-Matplotlib_icon.svg.png'),
+(4, 'What is Machine Learning?', 'Machine learning is a subset of AI where systems learn from data to improve performance without being explicitly programmed.', 'https://developers.google.com/machine-learning/crash-course', 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Scikit_learn_logo_small.svg/800px-Scikit_learn_logo_small.svg.png'),
+(4, 'Supervised vs Unsupervised Learning', 'Supervised learning uses labeled data for training, while unsupervised learning finds patterns in unlabeled data.', 'https://scikit-learn.org/stable/tutorial/index.html', 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Scikit_learn_logo_small.svg/800px-Scikit_learn_logo_small.svg.png'),
+(5, 'Network Security Fundamentals', 'Understanding firewalls, encryption, and secure protocols is the foundation of cybersecurity.', 'https://www.cisco.com/c/en/us/products/security/what-is-network-security.html', 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Cyber_Security.svg/800px-Cyber_Security.svg.png'),
+(5, 'Common Web Vulnerabilities', 'OWASP Top 10 covers the most critical web application security risks including XSS, SQL injection, and CSRF.', 'https://owasp.org/www-project-top-ten/', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/OWASP_logo.svg/800px-OWASP_logo.svg.png');
 
--- demouser's entries (topics 6-8)
+-- demouser's entries (topics 6-8) — all fields populated
 INSERT INTO entries (topic_id, title, text, link, image) VALUES
-(6, 'OOP Concepts', 'Java is an object-oriented language with classes, inheritance, and polymorphism.', 'https://docs.oracle.com/javase/tutorial/java/concepts/', NULL),
-(7, 'SQL Basics', 'SQL is used to communicate with relational databases using SELECT, INSERT, UPDATE, DELETE.', 'https://www.w3schools.com/sql/', NULL);
+(6, 'OOP Concepts', 'Java is an object-oriented language with classes, inheritance, and polymorphism.', 'https://docs.oracle.com/javase/tutorial/java/concepts/', 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Java-logo.svg/800px-Java-logo.svg.png'),
+(6, 'Exception Handling', 'Java uses try-catch-finally blocks to handle runtime errors gracefully without crashing the program.', 'https://docs.oracle.com/javase/tutorial/essential/exceptions/', 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Java-logo.svg/800px-Java-logo.svg.png'),
+(7, 'SQL Basics', 'SQL is used to communicate with relational databases using SELECT, INSERT, UPDATE, DELETE.', 'https://www.w3schools.com/sql/', 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Sql_data_base_with_logo.png/800px-Sql_data_base_with_logo.png'),
+(7, 'Database Normalization', 'Normalization organizes database tables to reduce redundancy and improve data integrity through normal forms (1NF, 2NF, 3NF).', 'https://www.guru99.com/database-normalization.html', 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Sql_data_base_with_logo.png/800px-Sql_data_base_with_logo.png'),
+(8, 'What is Cloud Computing?', 'Cloud computing delivers computing services like servers, storage, and databases over the internet on a pay-as-you-go basis.', 'https://azure.microsoft.com/en-us/overview/what-is-cloud-computing/', 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Amazon_Web_Services_Logo.svg/800px-Amazon_Web_Services_Logo.svg.png'),
+(8, 'IaaS vs PaaS vs SaaS', 'Infrastructure, Platform, and Software as a Service represent different levels of cloud abstraction — from managing VMs to using ready-made apps.', 'https://cloud.google.com/learn/paas-vs-iaas-vs-saas', 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Google_Cloud_logo.svg/800px-Google_Cloud_logo.svg.png');
