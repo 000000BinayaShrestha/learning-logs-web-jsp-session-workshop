@@ -378,7 +378,7 @@ After completing all 8 TODOs, rebuild (`mvn clean package cargo:run`) and verify
 | 6 | Edit and delete own entries | Works normally |
 | 7 | Check DevTools → Application → Cookies after login | "username" cookie present with 1-day expiry alongside JSESSIONID |
 | 8 | Log out and check DevTools → Cookies | "username" cookie deleted, JSESSIONID invalid |
-| 9 | Log in, wait 30+ min (or invalidate session in DevTools), visit /login | Username field pre-filled from cookie (TODO 8) |
+| 9 | Log in, then in DevTools delete only the JSESSIONID cookie (keep "username"), visit any page | Redirected to /login with username field pre-filled from cookie (TODO 8) |
 | 10 | Log in, close browser, reopen | JSESSIONID may survive (browser restore), username cookie survives (1-day maxAge) |
 | 11 | Logout from entry page | Redirected to /login, session destroyed, username field empty (cookie deleted) |
 | 12 | All topic page features still work | Unaffected (tutorial features intact) |
