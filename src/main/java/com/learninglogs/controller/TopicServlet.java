@@ -32,6 +32,24 @@ import java.util.ArrayList;
  *   action=delete  -> delete topic      -> redirect to /topic
  *
  * Complete from Week 7 tutorial — uses session userId for all operations.
+ *
+ * OWNERSHIP CHECKS (added in this workshop):
+ *   The edit and delete actions include checkUserForTopic() calls to prevent
+ *   URL manipulation. A user could manually type ?action=edit&topicid=6 to
+ *   edit another user's topic.
+ *
+ *   Why are these checks INSIDE the if-else branches instead of at the TOP
+ *   like EntryServlet?
+ *
+ *   Because not every TopicServlet action receives a topicid parameter:
+ *     - list (default): No topicid — uses fetchAllTopicsByUserId (already safe)
+ *     - new:            No topicid — creates a topic for the session user (safe)
+ *     - search:         No topicid — uses searchTopicsByUserId (already safe)
+ *     - edit:           HAS topicid — needs ownership check
+ *     - delete:         HAS topicid — needs ownership check
+ *
+ *   Compare with EntryServlet where EVERY action requires ?topicid=X,
+ *   so a single check at the top covers all actions.
  */
 @WebServlet("/topic")
 public class TopicServlet extends HttpServlet {

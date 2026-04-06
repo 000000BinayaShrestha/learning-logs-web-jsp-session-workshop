@@ -1,24 +1,24 @@
 # Learning Logs — Week 7 Session Management Workshop
 
-## Entry Ownership Validation, Cookie Utilities, and Entry Page Headers
+## Ownership Validation, Cookie Utilities, and Entry Page Headers
 
-> **In the tutorial, you added session management to topic pages — login persists, each user sees only their own topics, and unauthenticated users are blocked.** But the entry pages still have a security gap: any logged-in user can view ANY user's entries by changing the `topicid` in the URL. This workshop fixes that vulnerability and introduces cookies.
+> **In the tutorial, you added session management to topic pages — login persists, each user sees only their own topics, and unauthenticated users are blocked.** But there's still a security gap: any logged-in user can view or modify ANY user's topics and entries by changing the `topicid` in the URL. This workshop fixes that vulnerability with ownership checks on both topic and entry pages, and introduces cookies.
 
 ---
 
 ## The Problem
 
-The tutorial fixed session management for topics but left entry pages unprotected:
+The tutorial added session management and user-scoped topic lists, but left ownership validation and entry pages unprotected:
 
 | What Works (from Tutorial) | What's Still Missing |
 |---------------------------|---------------------|
 | Login creates a session, logout destroys it | Entry pages still show static "Username" and broken logout link |
-| Topic list is user-scoped (each user sees their own) | EntryServlet has NO ownership check — any user can access any topic's entries via URL |
+| Topic list is user-scoped (each user sees their own) | No ownership check — users can edit/delete another user's topics or access their entries by manipulating the URL |
 | AuthenticationFilter blocks unauthenticated access | No cookie utility exists (04-cookies.md is reference only) |
 | Topic page headers show logged-in username | LoginServlet doesn't set cookies — no "remember username" functionality |
 | SessionUtil wraps session API | LogoutServlet doesn't clear cookies — cookies persist after logout |
 
-**The security hole:** Log in as `testuser`, navigate to your entries (`/entry?topicid=1`), then manually change the URL to `/entry?topicid=6` — you'll see `demouser`'s entries. **After this workshop**, that URL manipulation is blocked.
+**The security hole:** Log in as `testuser`, then manually change the URL to `?action=edit&topicid=6` — you can edit `demouser`'s topic. Or navigate to `/entry?topicid=6` — you'll see `demouser`'s entries. **After this workshop**, both types of URL manipulation are blocked.
 
 ---
 
@@ -33,14 +33,14 @@ Everything from the Week 7 tutorial is provided complete:
 | User-scoped topics | `TopicDao`/`Impl` (fetchAllTopicsByUserId, searchTopicsByUserId, checkUserForTopic signature) | Provided |
 | Login session | `LoginServlet.java` (stores User in session) | Provided |
 | Logout | `LogoutServlet.java` (invalidates session) | Provided |
-| Topic pages | `TopicServlet`, `topic-list.jsp`, `topic-add-edit.jsp` (session headers) | Provided |
+| Topic pages | `TopicServlet` (session headers + **ownership checks on edit/delete**), `topic-list.jsp`, `topic-add-edit.jsp` | Provided |
 | All other files | Entities, DAOs, CSS, SQL, references, error page | Provided |
 
 ---
 
 ## What You'll Build
 
-7 TODOs across 7 files — adding entry ownership, cookies, and consistent headers:
+7 TODOs across 7 files — adding ownership validation, cookies, and consistent headers:
 
 | # | File | What You'll Build |
 |---|------|-------------------|
@@ -178,7 +178,38 @@ Authentication (filter):  "Is someone logged in?" → Yes/No
 Authorization (servlet):  "Does this user own topic #6?" → Yes/No
 ```
 
-The tutorial added authentication. This workshop adds authorization for entries.
+The tutorial added authentication. This workshop adds authorization — for both topics (provided in TopicServlet) and entries (your TODO 3 in EntryServlet).
+
+### Where Does the Ownership Check Go?
+
+You'll notice `checkUserForTopic()` is placed differently in TopicServlet vs EntryServlet. This is intentional — and understanding why is key:
+
+**EntryServlet — check at the TOP (before all actions):**
+```
+Every EntryServlet URL includes ?topicid=X:
+  /entry?topicid=1               (list entries)
+  /entry?topicid=1&action=new    (new entry form)
+  /entry?topicid=1&action=edit   (edit entry form)
+  /entry?topicid=1&action=search (search entries)
+
+Since ALL actions need a topicid, one check at the top covers everything.
+If you don't own the topic, you shouldn't be on any entry page at all.
+```
+
+**TopicServlet — check INSIDE specific branches only:**
+```
+Not every TopicServlet action receives a topicid:
+  /topic                         (list)   → No topicid — uses fetchAllTopicsByUserId (already safe)
+  /topic?action=new              (new)    → No topicid — creates for session user (already safe)
+  /topic?action=search&search=X  (search) → No topicid — uses searchTopicsByUserId (already safe)
+  /topic?action=edit&topicid=3   (edit)   → HAS topicid — needs ownership check ✓
+  /topic?action=delete&topicid=3 (delete) → HAS topicid — needs ownership check ✓
+
+A check at the top would crash on list/new/search because there's no topicid to parse.
+So the check goes inside the edit and delete branches only.
+```
+
+> **Read the provided TopicServlet code** — it shows how the same `checkUserForTopic()` method you implement in TODO 2 is used in a different placement pattern. Both servlets achieve the same goal (block unauthorized access) but adapt the check placement to their URL structure.
 
 ---
 
@@ -200,7 +231,7 @@ learning-logs-web-jsp-session-workshop/
 ├── src/main/
 │   ├── java/com/learninglogs/
 │   │   ├── controller/
-│   │   │   ├── TopicServlet.java           (provided — user-scoped)
+│   │   │   ├── TopicServlet.java           (provided — user-scoped + ownership checks)
 │   │   │   ├── EntryServlet.java           ← TODO 3: ownership check
 │   │   │   ├── LoginServlet.java           ← TODO 6: set cookie
 │   │   │   ├── RegisterServlet.java        (provided — unchanged)
@@ -269,9 +300,9 @@ mvn clean package cargo:run
 ### 3. Access the App
 Open `http://localhost:9090/learning-logs/topic`
 
-**Before completing the TODOs:** Entry pages show static "Username" with a broken logout link, any user can access any topic's entries via URL, and no cookies are set on login.
+**Before completing the TODOs:** Entry pages show static "Username" with a broken logout link, any user can edit/delete another user's topics or access their entries via URL manipulation, and no cookies are set on login.
 
-**After completing all TODOs:** Entry pages show the real username with a working logout link, ownership is validated on every entry request, and a "username" cookie is set on login and cleared on logout.
+**After completing all TODOs:** Entry pages show the real username with a working logout link, ownership is validated on every topic and entry request, and a "username" cookie is set on login and cleared on logout.
 
 ---
 
