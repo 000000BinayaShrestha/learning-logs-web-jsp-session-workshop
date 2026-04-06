@@ -30,7 +30,7 @@ Everything from the Week 7 tutorial is provided complete:
 |----------|-------|--------|
 | Session management | `SessionUtil.java` (set, get, invalidate) | Provided |
 | Auth filter | `AuthenticationFilter.java` (@WebFilter) | Provided |
-| User-scoped topics | `TopicDao`/`Impl` (fetchAllTopicsByUserId, searchTopicsByUserId) | Provided |
+| User-scoped topics | `TopicDao`/`Impl` (fetchAllTopicsByUserId, searchTopicsByUserId, checkUserForTopic signature) | Provided |
 | Login session | `LoginServlet.java` (stores User in session) | Provided |
 | Logout | `LogoutServlet.java` (invalidates session) | Provided |
 | Topic pages | `TopicServlet`, `topic-list.jsp`, `topic-add-edit.jsp` (session headers) | Provided |
@@ -40,18 +40,19 @@ Everything from the Week 7 tutorial is provided complete:
 
 ## What You'll Build
 
-8 TODOs across 8 files — adding entry ownership, cookies, and consistent headers:
+7 TODOs across 7 files — adding entry ownership, cookies, and consistent headers:
 
 | # | File | What You'll Build |
 |---|------|-------------------|
 | 1 | `CookieUtil.java` | **NEW** — Utility class wrapping Cookie API (add, get, delete) |
-| 2 | `TopicDao.java` | Add `checkUserForTopic` method signature |
-| 3 | `TopicDaoImpl.java` | Implement ownership check with SQL query |
-| 4 | `EntryServlet.java` | Add ownership validation at top of doGet and doPost |
-| 5 | `entry-list.jsp` | Show logged-in username + working logout link |
-| 6 | `entry-add-edit.jsp` | Show logged-in username + working logout link |
-| 7 | `LoginServlet.java` | Set "username" cookie after session creation |
-| 8 | `LogoutServlet.java` | Delete "username" cookie on logout |
+| 2 | `TopicDaoImpl.java` | Implement ownership check with SQL query |
+| 3 | `EntryServlet.java` | Add ownership validation at top of doGet and doPost |
+| 4 | `entry-list.jsp` | Show logged-in username + working logout link |
+| 5 | `entry-add-edit.jsp` | Show logged-in username + working logout link |
+| 6 | `LoginServlet.java` | Set "username" cookie after session creation |
+| 7 | `LogoutServlet.java` | Delete "username" cookie on logout |
+
+> **Note:** The `checkUserForTopic` method signature in `TopicDao.java` is provided — `TopicServlet` already uses it for topic edit/delete ownership checks. You implement the body in TODO 2.
 
 ---
 
@@ -72,7 +73,7 @@ User clicks topic link → GET /entry?topicid=X
                     │  1. Parse topicid   │
                     │  2. Get user from   │
                     │     session         │
-                    │  3. checkUserFor    │ ← NEW (TODO 4)
+                    │  3. checkUserFor    │ ← NEW (TODO 3)
                     │     Topic(userId,   │
                     │     topicId)        │
                     │                     │
@@ -114,22 +115,23 @@ Logout:
 The TODOs follow a bottom-up approach — utility first, then DAO, then servlets, then views:
 
 ```
-TODO 1: CookieUtil ─────────── Utility (foundation — needed by TODOs 7-8)
-TODO 2: TopicDao ───────────── Interface (method signature)
-TODO 3: TopicDaoImpl ───────── Implementation (database query)
-TODO 4: EntryServlet ────────── Use ownership check (needs TODOs 2-3)
-TODO 5: entry-list.jsp ──────── Display session data in UI
-TODO 6: entry-add-edit.jsp ──── Display session data in UI
-TODO 7: LoginServlet ────────── Set cookie on login (needs TODO 1)
-TODO 8: LogoutServlet ───────── Delete cookie on logout (needs TODO 1)
+TODO 1: CookieUtil ─────────── Utility (foundation — needed by TODOs 6-7)
+TODO 2: TopicDaoImpl ───────── Implementation (ownership check SQL query)
+TODO 3: EntryServlet ────────── Use ownership check (needs TODO 2)
+TODO 4: entry-list.jsp ──────── Display session data in UI
+TODO 5: entry-add-edit.jsp ──── Display session data in UI
+TODO 6: LoginServlet ────────── Set cookie on login (needs TODO 1)
+TODO 7: LogoutServlet ───────── Delete cookie on logout (needs TODO 1)
 ```
 
 **Why this order?**
 - TODO 1: CookieUtil is a utility — must exist before LoginServlet/LogoutServlet use it
-- TODOs 2-3: DAO before Servlet (avoids runtime errors when EntryServlet calls the method)
-- TODO 4: The security fix — blocks URL manipulation
-- TODOs 5-6: Visual fix — consistent headers across all pages
-- TODOs 7-8: Cookie integration — adds persistent "remember username" functionality
+- TODO 2: DAO implementation before Servlet (avoids runtime errors when EntryServlet calls the method)
+- TODO 3: The security fix — blocks URL manipulation
+- TODOs 4-5: Visual fix — consistent headers across all pages
+- TODOs 6-7: Cookie integration — adds persistent "remember username" functionality
+
+> **Important:** `TopicServlet` already calls `checkUserForTopic()` for topic edit/delete ownership checks (provided code). Until you complete TODO 2, topic edit and delete will be blocked for ALL users because the stub returns `false`. This is expected — complete TODO 2 first to fix it.
 
 ---
 
@@ -199,10 +201,10 @@ learning-logs-web-jsp-session-workshop/
 │   ├── java/com/learninglogs/
 │   │   ├── controller/
 │   │   │   ├── TopicServlet.java           (provided — user-scoped)
-│   │   │   ├── EntryServlet.java           ← TODO 4: ownership check
-│   │   │   ├── LoginServlet.java           ← TODO 7: set cookie
+│   │   │   ├── EntryServlet.java           ← TODO 3: ownership check
+│   │   │   ├── LoginServlet.java           ← TODO 6: set cookie
 │   │   │   ├── RegisterServlet.java        (provided — unchanged)
-│   │   │   ├── LogoutServlet.java          ← TODO 8: delete cookie
+│   │   │   ├── LogoutServlet.java          ← TODO 7: delete cookie
 │   │   │   └── filter/
 │   │   │       └── AuthenticationFilter.java (provided — route protection)
 │   │   ├── entity/
@@ -210,8 +212,8 @@ learning-logs-web-jsp-session-workshop/
 │   │   │   ├── Entry.java                  (provided)
 │   │   │   └── User.java                   (provided)
 │   │   ├── dao/
-│   │   │   ├── TopicDao.java               ← TODO 2: add checkUserForTopic
-│   │   │   ├── TopicDaoImpl.java           ← TODO 3: implement ownership check
+│   │   │   ├── TopicDao.java               (provided — includes checkUserForTopic signature)
+│   │   │   ├── TopicDaoImpl.java           ← TODO 2: implement ownership check
 │   │   │   ├── EntryDao.java               (provided)
 │   │   │   ├── EntryDaoImpl.java           (provided)
 │   │   │   ├── UserDao.java                (provided)
@@ -232,8 +234,8 @@ learning-logs-web-jsp-session-workshop/
 │           ├── views/
 │           │   ├── topic-list.jsp          (provided — session header done)
 │           │   ├── topic-add-edit.jsp      (provided — session header done)
-│           │   ├── entry-list.jsp          ← TODO 5: session header
-│           │   ├── entry-add-edit.jsp      ← TODO 6: session header
+│           │   ├── entry-list.jsp          ← TODO 4: session header
+│           │   ├── entry-add-edit.jsp      ← TODO 5: session header
 │           │   ├── login.jsp               (provided)
 │           │   └── register.jsp            (provided)
 │           └── web.xml                     (provided — unchanged)
@@ -275,7 +277,7 @@ Open `http://localhost:9090/learning-logs/topic`
 
 ## Test Cases
 
-After completing all 8 TODOs, rebuild (`mvn clean package cargo:run`) and verify:
+After completing all 7 TODOs, rebuild (`mvn clean package cargo:run`) and verify:
 
 | # | Test | Expected Result |
 |---|------|-----------------|
@@ -303,10 +305,10 @@ After completing all 8 TODOs, rebuild (`mvn clean package cargo:run`) and verify
 | `NullPointerException` in EntryServlet | Session user is null | Ensure you're logged in before testing entry pages |
 | Compilation error in EntryServlet | Missing import | Add `import com.learninglogs.entity.User;` and `import com.learninglogs.utils.SessionUtil;` |
 | Compilation error in LoginServlet/LogoutServlet | Missing import | Add `import com.learninglogs.utils.CookieUtil;` |
-| Compilation error: checkUserForTopic not found | TODO 2 not done | Complete TODO 2 (interface) before TODO 3 (implementation) |
+| Topic edit/delete blocked for all users | TODO 2 not done | TopicServlet uses `checkUserForTopic()` — complete TODO 2 so it returns the correct result |
 | Ownership check always fails | Wrong parameter order | `checkUserForTopic(userId, topicId)` — not reversed |
-| Cookie not appearing in DevTools | TODO 7 not done or wrong tab | Check Application → Cookies → localhost:9090 (not Network tab) |
-| Cookie persists after logout | TODO 8 not done | Add `CookieUtil.deleteCookie(response, "username")` in LogoutServlet |
-| Entry pages still show "Username" | TODOs 5-6 not done | Replace static header with `${sessionScope.user.username}` |
+| Cookie not appearing in DevTools | TODO 6 not done or wrong tab | Check Application → Cookies → localhost:9090 (not Network tab) |
+| Cookie persists after logout | TODO 7 not done | Add `CookieUtil.deleteCookie(response, "username")` in LogoutServlet |
+| Entry pages still show "Username" | TODOs 4-5 not done | Replace static header with `${sessionScope.user.username}` |
 
 *Informatics College Pokhara — Java Programming By Sandesh Hamal*

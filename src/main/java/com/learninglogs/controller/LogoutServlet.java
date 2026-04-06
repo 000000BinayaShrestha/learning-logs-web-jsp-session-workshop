@@ -30,10 +30,10 @@ public class LogoutServlet extends HttpServlet {
         SessionUtil.invalidateSession(request);
 
         // ============================================================
-        // TODO 8: Delete Cookies on Logout
+        // TODO 7: Delete Cookies on Logout
         // ============================================================
         // After invalidating the session, delete the "username" cookie
-        // that was set during login (TODO 7).
+        // that was set during login (TODO 6).
         //
         // Without this, the username cookie would persist for its full
         // 1-day lifetime even after the user explicitly logs out.

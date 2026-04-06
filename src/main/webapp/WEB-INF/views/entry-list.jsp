@@ -23,7 +23,7 @@
           <h3>Learning Log</h3>
         </div>
         <%-- ============================================================
-             TODO 5: Display Logged-In Username and Logout Link (Entry List)
+             TODO 4: Display Logged-In Username and Logout Link (Entry List)
              ============================================================
              Replace the static "Username" text and placeholder "#" logout
              link with dynamic session data — same pattern as the tutorial's

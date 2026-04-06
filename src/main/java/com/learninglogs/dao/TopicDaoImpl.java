@@ -253,9 +253,9 @@ public class TopicDaoImpl implements TopicDao {
     }
 
     // ============================================================
-    // TODO 3: Implement Ownership Check
+    // TODO 2: Implement Ownership Check
     // ============================================================
-    // Implement the checkUserForTopic method from TODO 2.
+    // Implement the checkUserForTopic method declared in TopicDao.
     //
     // This method queries the database to check if a topic belongs
     // to a specific user.

@@ -63,7 +63,7 @@ public class LoginServlet extends HttpServlet {
         SessionUtil.setAttribute(request, "user", user);
 
         // ============================================================
-        // TODO 7: Set Username Cookie After Login
+        // TODO 6: Set Username Cookie After Login
         // ============================================================
         // After storing the user in the session, set a custom cookie
         // that remembers the username.

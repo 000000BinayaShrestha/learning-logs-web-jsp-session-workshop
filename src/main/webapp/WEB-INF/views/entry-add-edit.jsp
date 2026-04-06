@@ -22,9 +22,9 @@
           <h3>Learning Log</h3>
         </div>
         <%-- ============================================================
-             TODO 6: Display Logged-In Username and Logout Link (Entry Form)
+             TODO 5: Display Logged-In Username and Logout Link (Entry Form)
              ============================================================
-             Same change as TODO 5 (entry-list.jsp) — replace the static
+             Same change as TODO 4 (entry-list.jsp) — replace the static
              "Username" and "#" link with dynamic session data.
 
              Currently:
@@ -40,7 +40,7 @@
                     onclick="return confirm('Are you sure you want to logout?');">Logout</a>
                </div>
 
-             CONCEPT: Same pattern as TODO 5 and the tutorial's topic pages.
+             CONCEPT: Same pattern as TODO 4 and the tutorial's topic pages.
              Every page that shows the header needs this change for
              consistency — the username and logout link should work on
              ALL pages, not just some.

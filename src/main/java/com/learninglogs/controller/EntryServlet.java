@@ -53,7 +53,7 @@ public class EntryServlet extends HttpServlet {
             throws ServletException, IOException {
 
         // ============================================================
-        // TODO 4: Entry Ownership Check (doGet)
+        // TODO 3: Entry Ownership Check (doGet)
         // ============================================================
         // Before any existing logic, validate that the logged-in user
         // actually owns the topic they're trying to access entries for.
@@ -74,7 +74,7 @@ public class EntryServlet extends HttpServlet {
         //   With check: redirected to /topic (access denied)
         //
         // IMPORTANT: This check must be at the TOP of both doGet AND
-        // doPost (TODO 4 covers both). The topicId is already parsed
+        // doPost (TODO 3 covers both). The topicId is already parsed
         // later in the existing code, but we need it early for the check.
         //
         // We use redirect (not forward) because the user is trying to
@@ -147,7 +147,7 @@ public class EntryServlet extends HttpServlet {
                           HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Ownership check (same as doGet — see TODO 4)
+        // Ownership check (same as doGet — see TODO 3)
 
         String action = request.getParameter("action");
         int topicId = Integer.parseInt(request.getParameter("topicid"));
