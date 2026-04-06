@@ -58,6 +58,11 @@ public class TopicServlet extends HttpServlet {
         }
         else if ("edit".equals(action)) {
             int topicId = Integer.parseInt(request.getParameter("topicid"));
+            // Ownership check — prevent editing another user's topic via URL manipulation
+            if (!topicDao.checkUserForTopic(user.getId(), topicId)) {
+                response.sendRedirect(request.getContextPath() + "/topic");
+                return;
+            }
             Topic topic = topicDao.findTopicById(topicId);
             request.setAttribute("topic", topic);
             request.getRequestDispatcher("/WEB-INF/views/topic-add-edit.jsp")
@@ -111,6 +116,12 @@ public class TopicServlet extends HttpServlet {
         }
         else if ("edit".equals(action)) {
             int topicId = Integer.parseInt(request.getParameter("topicid"));
+            User user = (User) SessionUtil.getAttribute(request, "user");
+            // Ownership check — prevent editing another user's topic via URL manipulation
+            if (!topicDao.checkUserForTopic(user.getId(), topicId)) {
+                response.sendRedirect(request.getContextPath() + "/topic");
+                return;
+            }
             String topicName = request.getParameter("topic");
 
             if (topicName == null || topicName.trim().isEmpty()) {
@@ -129,6 +140,12 @@ public class TopicServlet extends HttpServlet {
         }
         else if ("delete".equals(action)) {
             int topicId = Integer.parseInt(request.getParameter("topicid"));
+            User user = (User) SessionUtil.getAttribute(request, "user");
+            // Ownership check — prevent deleting another user's topic via URL manipulation
+            if (!topicDao.checkUserForTopic(user.getId(), topicId)) {
+                response.sendRedirect(request.getContextPath() + "/topic");
+                return;
+            }
             topicDao.deleteTopic(topicId);
             response.sendRedirect(request.getContextPath() + "/topic");
         }
