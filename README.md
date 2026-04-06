@@ -42,7 +42,7 @@ Everything from the Week 7 tutorial is provided complete:
 
 ## What You'll Build
 
-7 TODOs across 7 files — adding ownership validation, cookies, and consistent headers:
+8 TODOs across 8 files — adding ownership validation, cookies, and consistent headers:
 
 | # | File | What You'll Build |
 |---|------|-------------------|
@@ -53,6 +53,7 @@ Everything from the Week 7 tutorial is provided complete:
 | 5 | `entry-add-edit.jsp` | Show logged-in username + working logout link |
 | 6 | `LoginServlet.java` | Set "username" cookie after session creation |
 | 7 | `LogoutServlet.java` | Delete "username" cookie on logout |
+| 8 | `login.jsp` | Pre-fill username field from cookie |
 
 > **Note:** The `checkUserForTopic` method signature in `TopicDao.java` is provided — `TopicServlet` already uses it for topic edit/delete ownership checks. You implement the body in TODO 2.
 
@@ -124,6 +125,7 @@ TODO 4: entry-list.jsp ──────── Display session data in UI
 TODO 5: entry-add-edit.jsp ──── Display session data in UI
 TODO 6: LoginServlet ────────── Set cookie on login (needs TODO 1)
 TODO 7: LogoutServlet ───────── Delete cookie on logout (needs TODO 1)
+TODO 8: login.jsp ─────────────── Read cookie to pre-fill username (needs TODO 6)
 ```
 
 **Why this order?**
@@ -131,7 +133,8 @@ TODO 7: LogoutServlet ───────── Delete cookie on logout (needs
 - TODO 2: DAO implementation before Servlet (avoids runtime errors when EntryServlet calls the method)
 - TODO 3: The security fix — blocks URL manipulation
 - TODOs 4-5: Visual fix — consistent headers across all pages
-- TODOs 6-7: Cookie integration — adds persistent "remember username" functionality
+- TODOs 6-7: Cookie integration — set and delete the "username" cookie
+- TODO 8: The payoff — uses the cookie from TODO 6 to pre-fill the login form
 
 > **Important:** `TopicServlet` already calls `checkUserForTopic()` for topic edit/delete ownership checks (provided code). Until you complete TODO 2, topic edit and delete will be blocked for ALL users because the stub returns `false`. This is expected — complete TODO 2 first to fix it.
 
@@ -322,7 +325,7 @@ learning-logs-web-jsp-session-workshop/
 │           │   ├── topic-add-edit.jsp      (provided — session header done)
 │           │   ├── entry-list.jsp          ← TODO 4: session header
 │           │   ├── entry-add-edit.jsp      ← TODO 5: session header
-│           │   ├── login.jsp               (provided)
+│           │   ├── login.jsp               ← TODO 8: pre-fill username from cookie
 │           │   └── register.jsp            (provided)
 │           └── web.xml                     (provided — unchanged)
 ```
@@ -357,13 +360,13 @@ Open `http://localhost:9090/learning-logs/topic`
 
 **Before completing the TODOs:** Entry pages show static "Username" with a broken logout link, any user can edit/delete another user's topics or access their entries via URL manipulation, and no cookies are set on login.
 
-**After completing all TODOs:** Entry pages show the real username with a working logout link, ownership is validated on every topic and entry request, and a "username" cookie is set on login and cleared on logout.
+**After completing all TODOs:** Entry pages show the real username with a working logout link, ownership is validated on every topic and entry request, a "username" cookie is set on login and cleared on logout, and the login form pre-fills the username from the cookie.
 
 ---
 
 ## Test Cases
 
-After completing all 7 TODOs, rebuild (`mvn clean package cargo:run`) and verify:
+After completing all 8 TODOs, rebuild (`mvn clean package cargo:run`) and verify:
 
 | # | Test | Expected Result |
 |---|------|-----------------|
@@ -375,10 +378,11 @@ After completing all 7 TODOs, rebuild (`mvn clean package cargo:run`) and verify
 | 6 | Edit and delete own entries | Works normally |
 | 7 | Check DevTools → Application → Cookies after login | "username" cookie present with 1-day expiry alongside JSESSIONID |
 | 8 | Log out and check DevTools → Cookies | "username" cookie deleted, JSESSIONID invalid |
-| 9 | Log in, close browser, reopen | JSESSIONID may survive (browser restore), username cookie survives (1-day maxAge) |
-| 10 | Logout from entry page | Redirected to /login, session destroyed |
-| 11 | All topic page features still work | Unaffected (tutorial features intact) |
-| 12 | Search entries within a topic | Works, scoped to that topic |
+| 9 | Log in, wait 30+ min (or invalidate session in DevTools), visit /login | Username field pre-filled from cookie (TODO 8) |
+| 10 | Log in, close browser, reopen | JSESSIONID may survive (browser restore), username cookie survives (1-day maxAge) |
+| 11 | Logout from entry page | Redirected to /login, session destroyed, username field empty (cookie deleted) |
+| 12 | All topic page features still work | Unaffected (tutorial features intact) |
+| 13 | Search entries within a topic | Works, scoped to that topic |
 
 ---
 
