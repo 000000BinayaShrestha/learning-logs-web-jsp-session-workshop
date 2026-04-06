@@ -304,4 +304,8 @@ public class TopicDaoImpl implements TopicDao {
     //   }
     //
     // ============================================================
+    @Override
+    public boolean checkUserForTopic(int userId, int topicId) {
+        return false;
+    }
 }
