@@ -34,11 +34,11 @@
                </div>
 
              Change to:
-               <div class="usersession">
-                 <h3><c:out value="${sessionScope.user.username}" /></h3>
-                 <a href="${pageContext.request.contextPath}/logout" class="logout"
-                    onclick="return confirm('Are you sure you want to logout?');">Logout</a>
-               </div>
+        <div class="usersession">
+          <h3><c:out value="${sessionScope.user.username}" /></h3>
+          <a href="${pageContext.request.contextPath}/logout" class="logout"
+             onclick="return confirm('Are you sure you want to logout?');">Logout</a>
+        </div>
 
              CONCEPT: Same pattern as TODO 4 and the tutorial's topic pages.
              Every page that shows the header needs this change for
@@ -47,11 +47,11 @@
 
              The complete code:
 
-               <div class="usersession">
-                 <h3><c:out value="${sessionScope.user.username}" /></h3>
-                 <a href="${pageContext.request.contextPath}/logout" class="logout"
-                    onclick="return confirm('Are you sure you want to logout?');">Logout</a>
-               </div>
+        <div class="usersession">
+          <h3><c:out value="${sessionScope.user.username}" /></h3>
+          <a href="${pageContext.request.contextPath}/logout" class="logout"
+             onclick="return confirm('Are you sure you want to logout?');">Logout</a>
+        </div>
              ============================================================ --%>
         <div class="usersession">
           <h3>Username</h3>

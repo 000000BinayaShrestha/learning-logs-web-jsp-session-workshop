@@ -38,11 +38,11 @@
 
              Change it to use the User object stored in the session:
 
-               <div class="usersession">
-                 <h3><c:out value="${sessionScope.user.username}" /></h3>
-                 <a href="${pageContext.request.contextPath}/logout" class="logout"
-                    onclick="return confirm('Are you sure you want to logout?');">Logout</a>
-               </div>
+        <div class="usersession">
+          <h3><c:out value="${sessionScope.user.username}" /></h3>
+          <a href="${pageContext.request.contextPath}/logout" class="logout"
+             onclick="return confirm('Are you sure you want to logout?');">Logout</a>
+        </div>
 
              CONCEPT: ${sessionScope.user.username} reads the User object
              from the session (stored by LoginServlet during login) and
@@ -57,11 +57,11 @@
 
              The complete code:
 
-               <div class="usersession">
-                 <h3><c:out value="${sessionScope.user.username}" /></h3>
-                 <a href="${pageContext.request.contextPath}/logout" class="logout"
-                    onclick="return confirm('Are you sure you want to logout?');">Logout</a>
-               </div>
+        <div class="usersession">
+          <h3><c:out value="${sessionScope.user.username}" /></h3>
+          <a href="${pageContext.request.contextPath}/logout" class="logout"
+             onclick="return confirm('Are you sure you want to logout?');">Logout</a>
+        </div>
              ============================================================ --%>
         <div class="usersession">
           <h3>Username</h3>
