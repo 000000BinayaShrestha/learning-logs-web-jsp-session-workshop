@@ -34,6 +34,8 @@ Everything from the Week 7 tutorial is provided complete:
 | Login session | `LoginServlet.java` (stores User in session) | Provided |
 | Logout | `LogoutServlet.java` (invalidates session) | Provided |
 | Topic pages | `TopicServlet` (session headers + **ownership checks on edit/delete**), `topic-list.jsp`, `topic-add-edit.jsp` | Provided |
+| Error handling | `TopicServlet`, `EntryServlet` — **try-catch on all `parseInt` calls** (new in workshop) | Provided |
+| Link security | `entry-list.jsp` — **safe link rendering** for `entry.link` href (new in workshop) | Provided |
 | All other files | Entities, DAOs, CSS, SQL, references, error page | Provided |
 
 ---
@@ -210,6 +212,59 @@ So the check goes inside the edit and delete branches only.
 ```
 
 > **Read the provided TopicServlet code** — it shows how the same `checkUserForTopic()` method you implement in TODO 2 is used in a different placement pattern. Both servlets achieve the same goal (block unauthorized access) but adapt the check placement to their URL structure.
+
+---
+
+## What's Improved from the Tutorial
+
+Two security improvements were added to the provided code in this workshop that weren't in the tutorial:
+
+### 1. Safe URL Parameter Parsing
+
+The tutorial used `Integer.parseInt()` without error handling:
+```java
+// Tutorial (Week 7) — crashes with HTTP 500 if topicid is invalid
+int topicId = Integer.parseInt(request.getParameter("topicid"));
+```
+
+This workshop wraps every `parseInt` call with try-catch:
+```java
+// Workshop — redirects gracefully instead of crashing
+int topicId;
+try {
+    topicId = Integer.parseInt(request.getParameter("topicid"));
+} catch (NumberFormatException e) {
+    response.sendRedirect(request.getContextPath() + "/topic");
+    return;
+}
+```
+
+**Why?** A user could type `?topicid=abc` in the URL. Without the try-catch, the server returns an HTTP 500 error page. With it, the user is quietly redirected to a safe page.
+
+### 2. Safe Link Rendering
+
+The tutorial rendered entry links directly in the href attribute:
+```jsp
+<%-- Tutorial — vulnerable to javascript: URL injection --%>
+<a href="${entry.link}"><c:out value="${entry.link}" /></a>
+```
+
+This workshop only renders clickable links for `http://` and `https://` URLs:
+```jsp
+<%-- Workshop — blocks javascript: and other dangerous URL schemes --%>
+<c:choose>
+  <c:when test="${fn:startsWith(entry.link, 'http://') || fn:startsWith(entry.link, 'https://')}">
+    <a href="${fn:escapeXml(entry.link)}" target="_blank"><c:out value="${entry.link}" /></a>
+  </c:when>
+  <c:otherwise>
+    <c:out value="${entry.link}" />
+  </c:otherwise>
+</c:choose>
+```
+
+**Why?** Without this check, a user could enter `javascript:alert('xss')` as a link value. The display text is safely escaped by `<c:out>`, but clicking the link would execute the script. The `fn:startsWith` check ensures only real URLs become clickable links.
+
+> **Note:** This uses the JSTL functions taglib (`fn`), imported at the top of entry-list.jsp with `<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>`.
 
 ---
 
