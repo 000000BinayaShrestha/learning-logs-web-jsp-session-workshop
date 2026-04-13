@@ -1,7 +1,7 @@
 package com.learninglogs.controller;
 
 import com.learninglogs.utils.SessionUtil;
-
+import com.learninglogs.utils.CookieUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -66,7 +66,7 @@ public class LogoutServlet extends HttpServlet {
         //   CookieUtil.deleteCookie(response, "username");
         //
         // ============================================================
-
+        CookieUtil.deleteCookie(response, "username");
         response.sendRedirect(request.getContextPath() + "/login");
     }
 }

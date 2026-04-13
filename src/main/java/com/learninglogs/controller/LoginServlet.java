@@ -5,7 +5,7 @@ import com.learninglogs.dao.UserDaoImpl;
 import com.learninglogs.entity.User;
 import com.learninglogs.utils.PasswordUtil;
 import com.learninglogs.utils.SessionUtil;
-
+import com.learninglogs.utils.CookieUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -106,7 +106,7 @@ public class LoginServlet extends HttpServlet {
         //   CookieUtil.addCookie(response, "username", user.getUsername(), 24 * 60 * 60);
         //
         // ============================================================
-
+        CookieUtil.addCookie(response, "username", user.getUsername(), 24 * 60 * 60);
         response.sendRedirect(request.getContextPath() + "/topic");
     }
 }

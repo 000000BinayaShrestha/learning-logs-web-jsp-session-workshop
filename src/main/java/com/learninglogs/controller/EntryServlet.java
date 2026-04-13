@@ -6,6 +6,8 @@ import com.learninglogs.dao.TopicDao;
 import com.learninglogs.dao.TopicDaoImpl;
 import com.learninglogs.entity.Entry;
 import com.learninglogs.entity.Topic;
+import com.learninglogs.entity.User;
+import com.learninglogs.utils.SessionUtil;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -51,6 +53,18 @@ public class EntryServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response)
             throws ServletException, IOException {
+           int topicId;
+           try {
+               topicId = Integer.parseInt(request.getParameter("topicid"));
+           } catch (NumberFormatException e) {
+               response.sendRedirect(request.getContextPath() + "/topic");
+               return;
+           }
+           User user = (User) SessionUtil.getAttribute(request, "user");
+           if (!topicDao.checkUserForTopic(user.getId(), topicId)) {
+               response.sendRedirect(request.getContextPath() + "/topic");
+               return;
+           }
 
         // ============================================================
         // TODO 3: Entry Ownership Check (doGet)
@@ -102,9 +116,7 @@ public class EntryServlet extends HttpServlet {
         //   import com.learninglogs.entity.User;
         //   import com.learninglogs.utils.SessionUtil;
         // ============================================================
-
         String action = request.getParameter("action");
-        int topicId;
         try {
             topicId = Integer.parseInt(request.getParameter("topicid"));
         } catch (NumberFormatException e) {
@@ -164,11 +176,21 @@ public class EntryServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request,
                           HttpServletResponse response)
             throws ServletException, IOException {
-
+   int topicId;
+           try {
+               topicId = Integer.parseInt(request.getParameter("topicid"));
+           } catch (NumberFormatException e) {
+               response.sendRedirect(request.getContextPath() + "/topic");
+               return;
+           }
+           User user = (User) SessionUtil.getAttribute(request, "user");
+           if (!topicDao.checkUserForTopic(user.getId(), topicId)) {
+               response.sendRedirect(request.getContextPath() + "/topic");
+               return;
+           }
         // Ownership check (same as doGet — see TODO 3)
 
         String action = request.getParameter("action");
-        int topicId;
         try {
             topicId = Integer.parseInt(request.getParameter("topicid"));
         } catch (NumberFormatException e) {

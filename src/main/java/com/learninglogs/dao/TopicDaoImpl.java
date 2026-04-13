@@ -304,8 +304,25 @@ public class TopicDaoImpl implements TopicDao {
     //   }
     //
     // ============================================================
-    @Override
-    public boolean checkUserForTopic(int userId, int topicId) {
-        return false;
-    }
-}
+
+   @Override
+   public boolean checkUserForTopic(int userId, int topicId) {
+       Connection conn = null;
+       try {
+           conn = DatabaseConnection.getConnection();
+           String sql = "SELECT user_id FROM topics WHERE id = ?";
+           PreparedStatement statement = conn.prepareStatement(sql);
+           statement.setInt(1, topicId);
+           ResultSet rs = statement.executeQuery();
+           if (rs.next()) {
+               int topicUserId = rs.getInt("user_id");
+               return userId == topicUserId;
+           }
+           return false;
+       } catch (SQLException e) {
+           System.out.println("Error checking topic ownership: " + e.getMessage());
+           return false;
+       } finally {
+           DatabaseConnection.closeConnection(conn);
+       }
+   }}

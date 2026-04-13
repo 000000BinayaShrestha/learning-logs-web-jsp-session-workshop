@@ -62,7 +62,7 @@
                  value="<c:out value='${param.username}' default='${cookie.username.value}' />" required />
                ============================================================ --%>
           <input type="text" name="username" placeholder="Username"
-                 value="<c:out value='${param.username}' default='' />" required />
+                 value="<c:out value='${param.username}' default='${cookie.username.value}' />" required />
           <input type="password" name="password" placeholder="Password" required />
 
           <button type="submit">Login</button>
